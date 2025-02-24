@@ -28,6 +28,7 @@ class DBManager {
             id INTEGER AUTO_INCREMENT PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             description TEXT,
+            completed BOOLEAN
             date_created DATETIME NOT NULL
         )
     ''');
@@ -38,8 +39,9 @@ class DBManager {
     return await db.insert(taskTable, task.toMap());
   }
 
-  Future<List<Map>> getAllTask() async {
+  Future<List<TaskModel>> getAllTask() async {
     Database db = await instance.db;
-    return await db.query(taskTable);
+    final tasks = await db.query(taskTable);
+    return tasks.map((task) => TaskModel.fromMap(task)).toList();
   }
 }

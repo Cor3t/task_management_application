@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:taskapp/screens/home.dart';
 import 'package:taskapp/utils/db_manager.dart';
+import 'package:taskapp/utils/task_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DBManager.instance.initDB();
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider<TaskProvider>(
+      create: (context) => TaskProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
