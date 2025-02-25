@@ -23,7 +23,6 @@ class TaskModel {
   }
 
   factory TaskModel.fromMap(Map<String, dynamic> data) {
-    print(data["completed"]);
     return TaskModel(
       id: data["id"],
       title: data["title"],

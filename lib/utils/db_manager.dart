@@ -19,13 +19,13 @@ class DBManager {
     String dbPath = await getDatabasesPath();
     String path = join(dbPath, "task.db");
 
-    return await openDatabase(path, version: 2, onCreate: _onCreate);
+    return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
   Future _onCreate(Database db, int version) async {
     await db.execute('''
         CREATE TABLE $taskTable(
-            id INTEGER AUTO_INCREMENT PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             title VARCHAR(255) NOT NULL,
             description TEXT,
             completed BOOLEAN,
@@ -46,7 +46,18 @@ class DBManager {
 
   Future<List<TaskModel>> getAllTask() async {
     Database db = await instance.db;
+
     final tasks = await db.query(taskTable);
     return tasks.map((task) => TaskModel.fromMap(task)).toList();
+  }
+
+  Future<int> updateTask(int id, Map<String, dynamic> updateFields) async {
+    Database db = await instance.db;
+    return await db.update(
+      taskTable,
+      updateFields,
+      where: "id = ?",
+      whereArgs: [id],
+    );
   }
 }

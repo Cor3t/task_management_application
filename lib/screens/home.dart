@@ -24,6 +24,10 @@ class HomeScreen extends StatelessWidget {
                   (data) => TaskTileWidget(
                     value: data.completed,
                     title: data.title,
+                    onChanged: (value) {
+                      print(data.id);
+                      provider.completeTask(data.id!, value!);
+                    },
                   ),
                 )
               ],

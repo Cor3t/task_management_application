@@ -15,8 +15,25 @@ class TaskProvider extends ChangeNotifier {
   }
 
   void addTask(TaskModel task) async {
-    await DBManager.instance.insertTask(task);
-    tasks.add(task);
+    var result = await DBManager.instance.insertTask(task);
+    final updatedTask = TaskModel(
+      id: result,
+      title: task.title,
+      description: task.description,
+      completed: task.completed,
+      dateCreated: task.dateCreated,
+    );
+
+    tasks.add(updatedTask);
+    notifyListeners();
+  }
+
+  void completeTask(int id, bool completed) async {
+    await DBManager.instance.updateTask(
+      id,
+      {"completed": completed ? 1 : 0},
+    );
+    _loadTask();
     notifyListeners();
   }
 }
