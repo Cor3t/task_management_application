@@ -3,7 +3,7 @@ class TaskModel {
   final String title;
   final String description;
   final bool completed;
-  final DateTime dateCreated;
+  final String dateCreated;
 
   TaskModel({
     this.id,
@@ -15,20 +15,20 @@ class TaskModel {
 
   Map<String, dynamic> toMap() {
     return {
-      "id": id,
       "title": title,
       "description": description,
       "completed": completed,
-      "date_created": dateCreated,
+      "dateCreated": dateCreated,
     };
   }
 
   factory TaskModel.fromMap(Map<String, dynamic> data) {
+    print(data["completed"]);
     return TaskModel(
       id: data["id"],
       title: data["title"],
       description: data["description"],
-      completed: data["completed"],
+      completed: data["completed"] == 1,
       dateCreated: data["dateCreated"],
     );
   }

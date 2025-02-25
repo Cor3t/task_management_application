@@ -19,7 +19,7 @@ class DBManager {
     String dbPath = await getDatabasesPath();
     String path = join(dbPath, "task.db");
 
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+    return await openDatabase(path, version: 2, onCreate: _onCreate);
   }
 
   Future _onCreate(Database db, int version) async {
@@ -28,10 +28,15 @@ class DBManager {
             id INTEGER AUTO_INCREMENT PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             description TEXT,
-            completed BOOLEAN
-            date_created DATETIME NOT NULL
+            completed BOOLEAN,
+            dateCreated DATETIME NOT NULL
         )
     ''');
+  }
+
+  Future<bool> doesDatabaseExist() async {
+    String path = join(await getDatabasesPath(), 'tasks.db');
+    return databaseExists(path);
   }
 
   Future insertTask(TaskModel task) async {
