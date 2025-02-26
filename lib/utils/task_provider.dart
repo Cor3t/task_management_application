@@ -14,7 +14,7 @@ class TaskProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addTask(TaskModel task) async {
+  Future<int> addTask(TaskModel task) async {
     var result = await DBManager.instance.insertTask(task);
     final updatedTask = TaskModel(
       id: result,
@@ -26,6 +26,7 @@ class TaskProvider extends ChangeNotifier {
 
     tasks.add(updatedTask);
     notifyListeners();
+    return result;
   }
 
   void completeTask(int id, bool completed) async {
