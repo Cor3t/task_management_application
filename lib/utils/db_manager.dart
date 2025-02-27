@@ -44,6 +44,15 @@ class DBManager {
     return await db.insert(taskTable, task.toMap());
   }
 
+  Future deleteTask(int id) async {
+    Database db = await instance.db;
+    await db.delete(
+      taskTable,
+      where: "id = ?",
+      whereArgs: [id],
+    );
+  }
+
   Future<List<TaskModel>> getAllTask() async {
     Database db = await instance.db;
 

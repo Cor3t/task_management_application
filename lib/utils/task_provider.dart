@@ -29,6 +29,21 @@ class TaskProvider extends ChangeNotifier {
     return result;
   }
 
+  void deleteTask(int id) async {
+    await DBManager.instance.deleteTask(id);
+    _loadTask();
+    notifyListeners();
+  }
+
+  void updateTask(int id, Map<String, dynamic> data) async {
+    await DBManager.instance.updateTask(
+      id,
+      data,
+    );
+    _loadTask();
+    notifyListeners();
+  }
+
   void completeTask(int id, bool completed) async {
     await DBManager.instance.updateTask(
       id,

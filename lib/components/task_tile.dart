@@ -4,11 +4,13 @@ class TaskTileWidget extends StatelessWidget {
   final bool value;
   final String title;
   final Function(bool?) onChanged;
+  final Function()? onTap;
 
   const TaskTileWidget({
     required this.value,
     required this.title,
     required this.onChanged,
+    this.onTap,
     super.key,
   });
 
@@ -17,6 +19,7 @@ class TaskTileWidget extends StatelessWidget {
     return ListTile(
       leading: Checkbox(value: value, onChanged: onChanged),
       title: Text(title),
+      onTap: onTap,
     );
   }
 }
